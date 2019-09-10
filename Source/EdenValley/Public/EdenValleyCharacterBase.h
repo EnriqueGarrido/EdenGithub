@@ -13,6 +13,9 @@
 /** Delegate called when character uses skills. */
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnSkill);
 
+/** Delegate called when character uses any ability. */
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAbility);
+
 /** Base class for Characters. */
 UCLASS(config = Game)
 class EDENVALLEY_API AEdenValleyCharacterBase : public ACharacter, public IAbilitySystemInterface
@@ -33,6 +36,10 @@ public:
 	/** Delegate to be assign in BP. */
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = Abilities)
 	FOnSkill SkillDelegate;
+
+	/** Ability delegate to be assign in BP. */
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = Abilities)
+	FOnAbility AbilityDelegate;
 
 	/** Returns currents health. It will bee 0 if dead. */
 	UFUNCTION(BlueprintCallable, Category = Health)
