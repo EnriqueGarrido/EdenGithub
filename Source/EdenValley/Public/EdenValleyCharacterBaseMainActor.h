@@ -21,7 +21,7 @@ class EDENVALLEY_API AEdenValleyCharacterBaseMainActor : public AEdenValleyChara
 	class UCameraComponent* FollowCamera;
 
 	/** Collection sphere. */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Collection, meta = (AllowPrivateAccess = "true"))
 	class USphereComponent* CollectionSphere;
 
 public:
