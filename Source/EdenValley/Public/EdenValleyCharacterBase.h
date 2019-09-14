@@ -73,7 +73,7 @@ public:
 
 	/** Return by reference a list of active abilities that match match the specified tags. */
 	UFUNCTION(BlueprintCallable, Category = Abilities)
-	void GetActiveAbilitiesWithTags(FGameplayTagContainer AbilityTags, TArray< UAbilitySystemComponent*>& ActiveAbilities);
+	void GetActiveAbilitiesWithTags(FGameplayTagContainer AbilityTags, TArray<UGameplayAbility*>& ActiveAbilities);
 	
 	/** Returns by reference a list of active abilities bound to the item slot. */
 	UFUNCTION(BlueprintCallable, Category = Abilities)
