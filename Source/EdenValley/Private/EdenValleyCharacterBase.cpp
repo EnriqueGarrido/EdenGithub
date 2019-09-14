@@ -3,6 +3,7 @@
 #include "EdenValleyCharacterBase.h"
 #include "EngineMinimal.h"
 #include "GameplayTagsManager.h"
+#include "Net/UnrealNetwork.h"
 #include "AbilitySystemComponent.h"
 
 // Sets default values
@@ -14,8 +15,9 @@ AEdenValleyCharacterBase::AEdenValleyCharacterBase()
 	// Set size for collision capsule.
 	GetCapsuleComponent()->InitCapsuleSize(45.0f, 96.0f);
 
-	// Create ability system component.
+	// Create ability system component and set it to be explicitly replicated.
 	AbilitySystemComp = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
+	AbilitySystemComp->SetIsReplicated(true);
 
 	// Create the attribute set
 	AttributeSet = CreateDefaultSubobject<UEdenValleyAttributeSet>(TEXT("AttributeSet"));
@@ -58,6 +60,24 @@ void AEdenValleyCharacterBase::UnPossessed()
 	}
 
 	InventorySource = nullptr;
+}
+
+void AEdenValleyCharacterBase::OnRep_Controller()
+{
+	Super::OnRep_Controller();
+
+	// Our Controller changed. So it must update ActorInfo on AbilitySystemComponent.
+	if (AbilitySystemComp)
+	{
+		AbilitySystemComp->RefreshAbilityActorInfo();
+	}
+}
+
+void AEdenValleyCharacterBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(AEdenValleyCharacterBase, CharacterLevel);
 }
 
 UAbilitySystemComponent * AEdenValleyCharacterBase::GetAbilitySystemComponent() const
@@ -235,7 +255,7 @@ void AEdenValleyCharacterBase::AddStartupGameplayAbilities()
 {
 	check(AbilitySystemComp);
 
-	if (!bAbilitiesInitilized)
+	if (Role == ROLE_Authority && !bAbilitiesInitilized)
 	{
 		if (AbilityToStartup.Num() > 0)
 		{
@@ -271,7 +291,7 @@ void AEdenValleyCharacterBase::RemoveStartupGameplayAbilities()
 {
 	check(AbilitySystemComp);
 
-	if (bAbilitiesInitilized)
+	if (Role == ROLE_Authority && bAbilitiesInitilized)
 	{
 		// Remove any abilities added from a previous call.
 		TArray<FGameplayAbilitySpecHandle> AbilitiesToRemove;

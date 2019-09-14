@@ -29,6 +29,8 @@ public:
 	/** Overrides. */
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void UnPossessed() override;
+	virtual void OnRep_Controller() override;
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 	/** Implement IAbilitySystemInterface. */
 	UAbilitySystemComponent* GetAbilitySystemComponent() const override;
@@ -91,7 +93,7 @@ public:
 
 protected:	
 	/** The level of this character. */
-	UPROPERTY(EditAnywhere, Category = Abilities)
+	UPROPERTY(EditAnywhere, Replicated, Category = Abilities)
 	int32 CharacterLevel;
 
 	/** List of abilities to be used by this actor. */

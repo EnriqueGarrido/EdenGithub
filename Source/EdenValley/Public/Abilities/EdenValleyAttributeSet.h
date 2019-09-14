@@ -27,39 +27,40 @@ public:
 	/** Overrides */
 	virtual void PreAttributeChange(const FGameplayAttribute& Attribute, float& NewValue) override;
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data) override;
+	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 	/** Current Health. When 0 we expect character to die. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
+	UPROPERTY(BlueprintReadOnly, Category = "Health", ReplicatedUsing = OnRep_Health)
 	FGameplayAttributeData Health;
 	ATTRIBUTE_ACCESSORS(UEdenValleyAttributeSet, Health)
 
 	/** Max Health. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Health")
+	UPROPERTY(BlueprintReadOnly, Category = "Health", ReplicatedUsing = OnRep_MaxHealth)
 	FGameplayAttributeData MaxHealth;
 	ATTRIBUTE_ACCESSORS(UEdenValleyAttributeSet, MaxHealth)
 
 	/** Current Mana. Used to execute special abilities. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mana")
+	UPROPERTY(BlueprintReadOnly, Category = "Mana", ReplicatedUsing = OnRep_Mana)
 	FGameplayAttributeData Mana;
 	ATTRIBUTE_ACCESSORS(UEdenValleyAttributeSet, Mana)
 
 	/** Max Mana. */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Mana")
+	UPROPERTY(BlueprintReadOnly, Category = "Mana", ReplicatedUsing = OnRep_MaxMana)
 	FGameplayAttributeData MaxMana;
 	ATTRIBUTE_ACCESSORS(UEdenValleyAttributeSet, MaxMana)
 
 	/** AttackPower of the attacker is multiplied by the base Damage to reduce health, so 1.0 means no bonus */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Damage")
+	UPROPERTY(BlueprintReadOnly, Category = "Damage", ReplicatedUsing = OnRep_AttackPower)
 	FGameplayAttributeData AttackPower;
 	ATTRIBUTE_ACCESSORS(UEdenValleyAttributeSet, AttackPower)
 
 	/** Base Damage is divided by DefensePower to get actual damage done, so 1.0 means no bonus */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Damage")
+	UPROPERTY(BlueprintReadOnly, Category = "Damage", ReplicatedUsing = OnRep_DefensePower)
 	FGameplayAttributeData DefensePower;
 	ATTRIBUTE_ACCESSORS(UEdenValleyAttributeSet, DefensePower)
 
 	/** Damage is a 'temporary' attribute used by the DamageExecution to calculate final damage, which then turns into -Health */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Damage", meta = (HideFromLevelInfos))
+	UPROPERTY(BlueprintReadOnly, Category = "Damage", meta = (HideFromLevelInfos))
 	FGameplayAttributeData Damage;
 	ATTRIBUTE_ACCESSORS(UEdenValleyAttributeSet, Damage)
 
@@ -70,4 +71,23 @@ protected:
 	 */
 	void AdjustAttributeForMaxChange(FGameplayAttributeData& AffectedAttribute, const FGameplayAttributeData& MaxAttribute, 
 		float NewMaxValue, const FGameplayAttribute& AffectedAttributeProperty);
+
+	/* These OnRep function exist to make sure that ability system internal representation are synchronized properly durnig replication. */
+	UFUNCTION()
+	virtual void OnRep_Health();
+
+	UFUNCTION()
+	virtual void OnRep_MaxHealth();
+
+	UFUNCTION()
+	virtual void OnRep_Mana();
+
+	UFUNCTION()
+	virtual void OnRep_MaxMana();
+
+	UFUNCTION()
+	virtual void OnRep_AttackPower();
+
+	UFUNCTION()
+	virtual void OnRep_DefensePower();
 };

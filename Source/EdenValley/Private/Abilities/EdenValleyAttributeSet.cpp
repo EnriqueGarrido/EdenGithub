@@ -2,6 +2,7 @@
 
 #include "Abilities/EdenValleyAttributeSet.h"
 #include "EngineMinimal.h"
+#include "Net/UnrealNetwork.h"
 #include "EdenValleyCharacterBase.h"
 #include "GameplayEffect.h"
 #include "GameplayEffectExtension.h"
@@ -155,4 +156,47 @@ void UEdenValleyAttributeSet::PostGameplayEffectExecute(const FGameplayEffectMod
 			TargetCharacter->HandleManaChanged(DeltaValue, SourceTags);
 		}
 	}
+}
+
+void UEdenValleyAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(UEdenValleyAttributeSet, Health);
+	DOREPLIFETIME(UEdenValleyAttributeSet, MaxHealth);
+	DOREPLIFETIME(UEdenValleyAttributeSet, Mana);
+	DOREPLIFETIME(UEdenValleyAttributeSet, MaxMana);
+	DOREPLIFETIME(UEdenValleyAttributeSet, AttackPower);
+	DOREPLIFETIME(UEdenValleyAttributeSet, DefensePower);
+
+}
+
+void UEdenValleyAttributeSet::OnRep_Health()
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UEdenValleyAttributeSet, Health);
+}
+
+void UEdenValleyAttributeSet::OnRep_MaxHealth()
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UEdenValleyAttributeSet, MaxHealth);
+}
+
+void UEdenValleyAttributeSet::OnRep_Mana()
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UEdenValleyAttributeSet, Mana);
+}
+
+void UEdenValleyAttributeSet::OnRep_MaxMana()
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UEdenValleyAttributeSet, MaxMana);
+}
+
+void UEdenValleyAttributeSet::OnRep_AttackPower()
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UEdenValleyAttributeSet, AttackPower);
+}
+
+void UEdenValleyAttributeSet::OnRep_DefensePower()
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UEdenValleyAttributeSet, DefensePower);
 }
