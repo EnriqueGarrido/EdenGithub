@@ -144,14 +144,14 @@ bool AEdenValleyCharacterBase::IsUsingSkill()
 	const FName Tag = FName(TEXT("Skill")); // Get any skill.
 	FGameplayTag SkillTag = UGameplayTagsManager::Get().RequestGameplayTag(Tag);
 	FGameplayTagContainer AbilityTags = FGameplayTagContainer(SkillTag);
-	TArray<UAbilitySystemComponent*> ActiveAbilities;
+	TArray<UGameplayAbility*> ActiveAbilities;
 	GetActiveAbilitiesWithTags(AbilityTags, ActiveAbilities);
 
 	if (ActiveAbilities.Num() > 0) bUsingSkill = true;
 	return bUsingSkill;
 }
 
-void AEdenValleyCharacterBase::GetActiveAbilitiesWithTags(FGameplayTagContainer AbilityTags, TArray<UAbilitySystemComponent*>& ActiveAbilities)
+void AEdenValleyCharacterBase::GetActiveAbilitiesWithTags(FGameplayTagContainer AbilityTags, TArray<UGameplayAbility*>& ActiveAbilities)
 {
 	if (AbilitySystemComp)
 	{
@@ -166,7 +166,7 @@ void AEdenValleyCharacterBase::GetActiveAbilitiesWithTags(FGameplayTagContainer 
 
 			for (UGameplayAbility* ActiveAbility : AbilityInstances)
 			{
-				ActiveAbilities.Add(AbilitySystemComp);
+				ActiveAbilities.Add(ActiveAbility);
 			}
 		}
 	}
