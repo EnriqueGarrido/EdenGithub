@@ -130,11 +130,11 @@ protected:
 
 	/** Returns true if this character can use any ability. */
 	UFUNCTION(BlueprintCallable, Category = Abilities)
-	bool CanUseAnyAbililty();
+	FORCEINLINE bool CanUseAnyAbililty();
 
 	/** Returns true if this character is using some skill. */
 	UFUNCTION(BlueprintCallable, Category = Abilities)
-	bool IsUsingSkill();
+	FORCEINLINE bool IsUsingSkill();
 
 	/** Called when character takes damage. Implemented in blueprint.*/
 	UFUNCTION(BlueprintImplementableEvent, Category = CharacterBase, Meta = (DisplayName = "OnDamageChanged"))

@@ -3,6 +3,7 @@
 
 #include "EdenValleyBlueprintLibrary.h"
 #include "EdenValleyLoadingScreen.h"
+#include "FileHelper.h"
 #include "Paths.h"
 #include "PlatformFile.h"
 #include "PlatformFilemanager.h"
@@ -59,13 +60,35 @@ TArray<FString> UEdenValleyBlueprintLibrary::GetAllSaveGameSlotNames()
 	};
 
 	TArray<FString> SaveGameSlotNames;
-	const FString SavesFolder = FPaths::ProjectSavedDir() + TEXT("SaveGames");
+	const FString SavesFolderPath = FPaths::ProjectSavedDir() + TEXT("SaveGames");
 
-	if (!SavesFolder.IsEmpty())
+	if (!SavesFolderPath.IsEmpty())
 	{
 		FFindSavesVisitor Visitor;
-		FPlatformFileManager::Get().GetPlatformFile().IterateDirectory(*SavesFolder, Visitor);
+		FPlatformFileManager::Get().GetPlatformFile().IterateDirectory(*SavesFolderPath, Visitor);
 		SaveGameSlotNames = Visitor.SavesFound;
 	}
 	return SaveGameSlotNames;
+}
+
+bool UEdenValleyBlueprintLibrary::LoadStringFile(FString& Result, FString FolderName, FString FileName)
+{
+	const FString FolderPath = FPaths::GameDir() + FolderName;
+	if (FolderPath.IsEmpty())
+	{
+		return false;
+	}
+
+	const FString FilePath = FolderPath + FileName;
+	if (!FPaths::FileExists(FilePath))
+	{
+		return false;
+	}
+
+	if (FFileHelper::LoadFileToString(Result, *FilePath))
+	{
+		return true;
+	}
+
+	return false;
 }

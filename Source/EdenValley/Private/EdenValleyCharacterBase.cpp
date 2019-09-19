@@ -134,15 +134,19 @@ bool AEdenValleyCharacterBase::CanUseAnyAbililty()
 	bool bCanUseAnyAbility = false;
 
 	if (!IsUsingSkill() && IsAlive()) bCanUseAnyAbility = true;
-	return bCanUseAnyAbility;
+	return true;
 }
 
 bool AEdenValleyCharacterBase::IsUsingSkill()
 {
 	bool bUsingSkill = false;
+	bool bFound = false;
 
 	const FName Tag = FName(TEXT("Skill")); // Get any skill.
-	FGameplayTag SkillTag = UGameplayTagsManager::Get().RequestGameplayTag(Tag);
+	FGameplayTag SkillTag = UGameplayTagsManager::Get().RequestGameplayTag(Tag, bFound);
+
+	if (!bFound) return false;
+
 	FGameplayTagContainer AbilityTags = FGameplayTagContainer(SkillTag);
 	TArray<UGameplayAbility*> ActiveAbilities;
 	GetActiveAbilitiesWithTags(AbilityTags, ActiveAbilities);

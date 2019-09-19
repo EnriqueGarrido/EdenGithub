@@ -15,7 +15,7 @@ class EDENVALLEY_API UEdenValleyBlueprintLibrary : public UBlueprintFunctionLibr
 	
 public:
 	/** 
-	 * Show the native loading screen, such as on a map transfer. If bPlayUntilStopped is false, it will be displayed for PlayTime and 
+	 * Shows the native loading screen, such as on a map transfer. If bPlayUntilStopped is false, it will be displayed for PlayTime and 
 	 * automatically stop.
 	 */
 	UFUNCTION(BlueprintCallable, Category = Loading)
@@ -25,12 +25,16 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Loading)
 	static void StopLoadingScreen();
 
-	/** Apply Gameplay Effect to target data from outside of an ability. */
+	/** Applies Gameplay Effect to target data from outside of an ability. */
 	UFUNCTION(BlueprintCallable, Category = Ability)
 	static void ApplyGESpecHandleToTargetDataSpecsHandle(const FGameplayEffectSpecHandle& GESpecHandle, 
 		const FGameplayAbilityTargetDataHandle& TargetDataHandle);
 
-	/** Get all save slot names from save file located at Saved/SaveGames. */
+	/** Returns all save slot names from save file located at Saved/SaveGames. */
 	UFUNCTION(BlueprintCallable, Category = Save)
 	static TArray<FString> GetAllSaveGameSlotNames();
+
+	/** Returns a string from a give file. */
+	UFUNCTION(BlueprintCallable, Category = Utils)
+	static bool LoadStringFile(FString& Result, FString FolderName, FString FileName);
 };
