@@ -73,7 +73,7 @@ TArray<FString> UEdenValleyBlueprintLibrary::GetAllSaveGameSlotNames()
 
 bool UEdenValleyBlueprintLibrary::LoadStringFile(FString& Result, FString FolderName, FString FileName)
 {
-	const FString FolderPath = FPaths::GameDir() + FolderName;
+	const FString FolderPath = FPaths::ProjectDir() + FolderName;
 	if (FolderPath.IsEmpty())
 	{
 		return false;

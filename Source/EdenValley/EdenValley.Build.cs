@@ -4,9 +4,10 @@ using UnrealBuildTool;
 
 public class EdenValley : ModuleRules
 {
-	public EdenValley(ReadOnlyTargetRules Target) : base(Target)
+	public EdenValley(ReadOnlyTargetRules Target) 
+        : base(Target)
 	{
-        PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
+        PrivatePCHHeaderFile = "Public/EdenValley.h";
 
         PublicDependencyModuleNames.AddRange(
             new string[] {
@@ -22,6 +23,7 @@ public class EdenValley : ModuleRules
                 "Slate",
                 "SlateCore",
                 "InputCore",
+                "MoviePlayer",
                 "GameplayAbilities",
                 "GameplayTags",
                 "GameplayTasks"
