@@ -2,10 +2,8 @@
 
 #include "EdenValleyGameModeBase.h"
 #include "EdenValleyCharacterBase.h"
-//#include "EdenValleyPlayerController.h"
 
 AEdenValleyGameModeBase::AEdenValleyGameModeBase()
 {
-	//PlayerControllerClass = AEdenValleyPlayerController::StaticClass();
 	DefaultPawnClass = AEdenValleyCharacterBase::StaticClass();
 }

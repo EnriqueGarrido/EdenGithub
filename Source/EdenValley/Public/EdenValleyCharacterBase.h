@@ -113,7 +113,6 @@ protected:
 	UAbilitySystemComponent* AbilitySystemComp;
 
 	/** List of attributes modified by the ability system. */
-	UPROPERTY()
 	UEdenValleyAttributeSet* AttributeSet;
 
 	/** Cached pointer to the inventory source for this character. */
